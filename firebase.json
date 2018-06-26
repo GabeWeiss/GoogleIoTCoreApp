@@ -14,6 +14,11 @@
       "**/node_modules/**"
     ],
     "rewrites": [
+
+      {
+        "source": "/api/ping",
+        "function" : "ping"
+      },
       {
         "source": "**",
         "destination": "/index.html"
