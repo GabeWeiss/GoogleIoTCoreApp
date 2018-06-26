@@ -1,3 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
 
-body { margin: 0; }
+md-toolbar-row {
+  justify-content: space-between;
+}
+
+p {
+  margin: 16px;
+}
+
+[md-raised-button] {
+  width: 100%;
+}
+
+md-grid-list {
+  max-width: 1403px;
+  margin: 16px;
+}
+
+md-sidenav-layout {
+  height: 100vh;
+}
+
+md-sidenav {
+  width: 320px;
+}
+
+.icon-20 {
+  font-size: 20px;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

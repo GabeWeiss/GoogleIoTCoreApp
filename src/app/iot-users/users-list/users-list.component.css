@@ -1,0 +1,9 @@
+.new-button {
+  z-index: 1;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+table {
+  width: 100%;
+}

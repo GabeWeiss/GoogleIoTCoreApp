@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-content [formGroup]="newUserForm" class="new-user-form">
+    <h1>New User</h1>
+
+
+    <mat-form-field>
+      <input type="text" placeholder="Name" matInput formControlName="name"/>
+    </mat-form-field>
+
+    <button mat-raised-button (click)="saveNewUser()">Save</button>
+  </mat-card-content>
+</mat-card>
