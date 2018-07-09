@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2017 Google Inc.
+# Copyright 2018 Google Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Python sample for connecting to Google Cloud IoT Core via MQTT, using JWT.
-This example connects to Google Cloud IoT Core via MQTT, using a JWT for device
-authentication. After connecting, by default the device publishes 100 messages
-to the device's MQTT topic at a rate of one per second, and then exits.
-Before you run the sample, you must follow the instructions in the README
-for this sample.
-"""
 
-# [START iot_mqtt_includes]
 import argparse
 import datetime
 import os
@@ -33,16 +25,6 @@ import jwt
 import paho.mqtt.client as mqtt
 
 import serial
-# [END iot_mqtt_includes]
-
-# The initial backoff time after a disconnection occurs, in seconds.
-minimum_backoff_time = 1
-
-# The maximum backoff time before giving up, in seconds.
-MAXIMUM_BACKOFF_TIME = 32
-
-# Whether to wait with exponential backoff before publishing.
-should_backoff = False
 
 
 # [START iot_mqtt_jwt]
@@ -150,7 +132,6 @@ def get_client(
     
 
     return client
-# [END iot_mqtt_config]
 
 project_id = 'calum-iot-demo'
 cloud_region = 'us-central1'
@@ -174,8 +155,6 @@ ser.open()
 
 
 
-
-# [START iot_mqtt_run]
 def main():
     global minimum_backoff_time
     global connected
@@ -198,33 +177,6 @@ def main():
 
     while True:
 
-#backoff and refresh - can likely remove for simplicity - should implement our own version of loop to do this on seperate thread as well - WONT FIX
-        # Wait if backoff is required.
-        # if should_backoff:
-        #     # If backoff time is too large, give up.
-        #     if minimum_backoff_time > MAXIMUM_BACKOFF_TIME:
-        #         print('Exceeded maximum backoff time. Giving up.')
-        #         break
-
-        #     # Otherwise, wait and connect again.
-        #     delay = minimum_backoff_time + random.randint(0, 1000) / 1000.0
-        #     print('Waiting for {} before reconnecting.'.format(delay))
-        #     time.sleep(delay)
-        #     minimum_backoff_time *= 2
-        #     client.connect(mqtt_bridge_hostname, mqtt_bridge_port)
-        # # [START iot_mqtt_jwt_refresh]
-        # seconds_since_issue = (datetime.datetime.utcnow() - jwt_iat).seconds
-        # if seconds_since_issue > 60 * jwt_exp_mins:
-        #     print('Refreshing token after {}s').format(seconds_since_issue)
-        #     jwt_iat = datetime.datetime.utcnow()
-        #     client = get_client(
-        #         project_id, cloud_region, registry_id, device_id,
-        #         private_key_file, algorithm, ca_certs,
-        #         mqtt_bridge_hostname, mqtt_bridge_port)
-        # [END iot_mqtt_jwt_refresh]
-# could remove above - see comment
-
-
         #payload = random.randint(50,100)
 
         ser.reset_input_buffer()
@@ -236,11 +188,8 @@ def main():
             payload = bpm
 
         if bpm >= hr_limit:
-            print 'your too busy! take a breath'
+            print 'you\'re too busy! take a breath'
 
-        # Publish "payload" to the MQTT topic. qos=1 means at least once
-        # delivery. Cloud IoT Core also supports qos=0 for at most once
-        # delivery.
         if connected:
             print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
             client.publish(mqtt_topic, payload, qos=0)
@@ -249,7 +198,6 @@ def main():
         # Send events every second. limit to 1 per second due to fs limits
         time.sleep(1)
 
-# [END iot_mqtt_run]
 
 
 if __name__ == '__main__':
