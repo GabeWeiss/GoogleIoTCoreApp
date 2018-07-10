@@ -1,10 +1,10 @@
 [Unit]
-Description=My Script Service
+Description=Start and Update BPM Python Script
 After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/python /home/pi/myscript.py
+ExecStart=/home/pi/bpm_run/GoogleIoTCoreApp/pi_py/startup_utils/start_python.sh
 
 [Install]
 WantedBy=multi-user.target
