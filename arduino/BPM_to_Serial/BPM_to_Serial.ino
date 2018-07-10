@@ -101,6 +101,10 @@ void setup() {
       delay(50);
     }
   }
+
+//turn on pin to power sensor
+  pinMode(12, OUTPUT);
+  digitalWrite(12, HIGH);
 }
 
 void loop() {
