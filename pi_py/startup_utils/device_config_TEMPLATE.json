@@ -1,10 +1,8 @@
-// device_config.json
-//This file should be moved and put on each device.
-//Do not access it from here
 {
   "DEVICE": {
     "DEVICE_ID": "bpm_0",
     "PRIVATE_KEY": "device_keys/rsa_private.pem",
-    "TYPE": "SYS-MAC"
+    "TYPE": "SYS-MAC",
+	"SERIAL_PORT": "/dev/cu.usbmodem1431"
   }
 }

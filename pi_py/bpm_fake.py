@@ -21,12 +21,10 @@ import random
 import ssl
 import time
 import json
+import io
 
 import jwt
 import paho.mqtt.client as mqtt
-
-import serial
-
 
 
 # [START iot_mqtt_jwt]
@@ -144,7 +142,6 @@ with open('../../device/device_config.json') as f:
 
 device_id = dconfig['DEVICE']['DEVICE_ID']
 private_key_file = dconfig['DEVICE']['PRIVATE_KEY']
-serial_port = dconfig['DEVICE']['SERIAL_PORT']
 sys_type = dconfig['DEVICE']['TYPE']
 
 
@@ -163,16 +160,9 @@ algorithm = gconfig['GCP']['ALGORITHM']
 ca_certs = gconfig[sys_type]['CA_CERTS']
 
 
-
 # This is the topic that the device will receive configuration updates on.
 mqtt_config_topic = '/devices/{}/config'.format(device_id)
 
-
-#uart config and vars
-ser = serial.Serial()
-ser.baudrate = 115200
-ser.port = serial_port
-ser.open()
 
 
 
@@ -198,21 +188,10 @@ def main():
 
     while True:
 
-        #payload = random.randint(50,100)
-
-        ser.reset_input_buffer()
-        time.sleep(0.1)
-        sline = ser.readline() 
-        if sline and sline != '':
-            bpm = int(sline)
-            print 'bpm: ' + str(bpm)
-            payload = bpm
-
-        if bpm >= hr_limit:
-            print 'you\'re too busy! take a breath'
+        payload = random.randint(50,100)
 
         if connected:
-            print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
+            print('publishing ' + str(payload) + ' on ' + mqtt_topic)
             client.publish(mqtt_topic, payload, qos=0)
 
 

@@ -1,4 +1,3 @@
-// config.json
 {
   "GCP": {
     "PROJECT_ID": "calum-iot-demo",
@@ -9,9 +8,9 @@
     "ALGORITHM": "RS256"
   },
   "SYS-MAC": {
-    "CA_CERTS": "/usr/local/etc/openssl.pem"
+    "CA_CERTS": "/usr/local/etc/openssl/cert.pem"
   },
   "SYS-PI": {
-    "CA_CERTS": "/usr/local/etc/openssl.pem"
+    "CA_CERTS": "/usr/local/etc/openssl/cert.pem"
   }
 }
