@@ -13,3 +13,6 @@
 pyvenv.cfg
 .venv
 pip-selfcheck.json
+
+#MAC
+.DS_Store
