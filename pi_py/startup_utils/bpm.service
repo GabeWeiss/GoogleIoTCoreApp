@@ -1,0 +1,10 @@
+[Unit]
+Description=My Script Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python /home/pi/myscript.py
+
+[Install]
+WantedBy=multi-user.target

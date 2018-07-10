@@ -1,0 +1,17 @@
+// config.json
+{
+  "GCP": {
+    "PROJECT_ID": "calum-iot-demo",
+    "CLOUD_REGION": "us-central1",
+    "REGISTRY_ID": "my-registry",
+    "MQTT_BRIDGE_HOSTNAME": "mqtt.googleapis.com",
+    "MQTT_BRIDGE_PORT": 8883,
+    "ALGORITHM": "RS256"
+  },
+  "SYS-MAC": {
+    "CA_CERTS": "/usr/local/etc/openssl.pem"
+  },
+  "SYS-PI": {
+    "CA_CERTS": "/usr/local/etc/openssl.pem"
+  }
+}
