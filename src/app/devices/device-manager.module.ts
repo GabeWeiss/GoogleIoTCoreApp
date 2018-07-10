@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DeviceListComponent } from './device-list/device-list.component';
+import { DeviceDetailComponent } from './device-detail/device-detail.component';
 
 
 const deviceManagerRoutes: Routes = [
@@ -14,7 +15,6 @@ const deviceManagerRoutes: Routes = [
     CommonModule,
     RouterModule.forChild(deviceManagerRoutes)
   ],
-  declarations: [DeviceListComponent]
+  declarations: [DeviceListComponent, DeviceDetailComponent]
 })
 export class DeviceManagerModule { }
-

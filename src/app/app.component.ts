@@ -43,7 +43,7 @@ export class AppComponent {
 
   links = [
     { path: 'iot-dashboard', text: 'Dashboard', icon: 'timelinemo'},
-    { path: 'device-manager', text: 'Devices', icon: 'settings_input_antenna'},
+    { path: 'devices', text: 'Devices', icon: 'settings_input_antenna'},
     { path: 'iot-users', text: 'Users', icon: 'account_circle'}
   ];
 

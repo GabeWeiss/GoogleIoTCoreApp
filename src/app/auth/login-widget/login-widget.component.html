@@ -1,0 +1,6 @@
+<ng-container *ngIf="user$ | async as user; else:loginView">
+  <span><img matListAvatar [src]="user.photoURL"></span>
+</ng-container>
+<ng-template #loginView>
+    <button class="mat-button" (click)="login()">Login</button>
+</ng-template>

@@ -26,8 +26,8 @@ import { AppComponent } from './app.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     RouterModule.forRoot([
-      { path: '', redirectTo: 'device-manager', pathMatch: 'full'},
-      { path: 'device-manager', loadChildren: './device-manager/device-manager.module#DeviceManagerModule'},
+      { path: '', redirectTo: 'devices', pathMatch: 'full'},
+      { path: 'devices', loadChildren: './devices/device-manager.module#DeviceManagerModule'},
       { path: 'iot-dashboard', loadChildren: './iot-dashboard/iot-dashboard.module#IotDashboardModule'},
       { path: 'iot-users', loadChildren: './iot-users/iot-users.module#IotUsersModule'}
     ])
