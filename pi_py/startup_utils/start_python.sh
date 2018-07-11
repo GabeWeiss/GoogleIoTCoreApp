@@ -3,6 +3,6 @@
 cd /home/pi/bpm_run/GoogleIoTCoreApp/pi_py/
 git pull
 
-pip install -r requirements.txt
+pip install -r requirements.txt --ignore-installed
 
 python bpm_writer.py > /home/pi/bpm.log 2>&1 &
