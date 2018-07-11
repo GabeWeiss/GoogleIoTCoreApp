@@ -8,7 +8,7 @@ WorkingDirectory=/home/pi/bpm_run/GoogleIoTCoreApp/pi_py/
 User=pi
 Group=pi
 ExecStartPre=/usr/bin/git pull
-ExecStartPre=/usr/bin/pip install -r requirements.txt
+ExecStartPre=/home/pi/bpm_run/GoogleIoTCoreApp/pi_py/startup_utils/run_pip.sh
 ExecStart=/usr/bin/python -u bpm_writer.py
 
 
