@@ -10,7 +10,7 @@ Group=pi
 ExecStartPre=/usr/bin/git pull
 ExecStartPre=/usr/bin/pip install -r requirements.txt
 ExecStart=/usr/bin/python -u bpm_writer.py
-Restart=always
+
 
 [Install]
 WantedBy=multi-user.target
