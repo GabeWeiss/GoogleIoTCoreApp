@@ -27,7 +27,7 @@ import paho.mqtt.client as mqtt
 
 import serial
 
-fake = True
+fake = False
 
 # [START iot_mqtt_jwt]
 def create_jwt(project_id, private_key_file, algorithm):
