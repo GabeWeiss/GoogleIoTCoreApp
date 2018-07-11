@@ -5,4 +5,4 @@ git pull
 
 pip install -r requirements.txt --ignore-installed
 
-python bpm_writer.py > /home/pi/bpm.log 2>&1 &
+python -u bpm_writer.py > /home/pi/bpm.log 2>&1 &
