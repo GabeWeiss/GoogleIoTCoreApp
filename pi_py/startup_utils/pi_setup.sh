@@ -1,5 +1,5 @@
 #basic dirs
-sudo apt-get --assume-yes install git
+sudo apt-get --assume-yes install git python-dev build-essential python-pip libssl-dev libffi-dev
 
 mkdir /home/pi/bpm_run
 mkdir /home/pi/bpm_run/device

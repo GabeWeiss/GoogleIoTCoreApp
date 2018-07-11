@@ -1,10 +1,7 @@
 #!/bin/sh
 
-cd /home/pi/bpm_run/GoogleIoTCoreApp
+cd /home/pi/bpm_run/GoogleIoTCoreApp/pi_py/
 git pull
-
-cd pi_py/
-source bin/activate
 
 pip install -r requirements.txt
 
