@@ -93,7 +93,10 @@ def on_message(unused_client, unused_userdata, message):
     payload = str(message.payload)
     print('Received message \'{}\' on topic \'{}\' with Qos {}'.format(
             payload, message.topic, str(message.qos)))
-    hr_limit = int(payload)
+    try:
+        hr_limit = int(payload)
+    except ValueError:
+        print('no valid config')
 
 
 def get_client(
