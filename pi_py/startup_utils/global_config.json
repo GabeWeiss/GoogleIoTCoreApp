@@ -11,6 +11,6 @@
     "CA_CERTS": "/usr/local/etc/openssl/cert.pem"
   },
   "SYS-PI": {
-    "CA_CERTS": "/usr/local/etc/openssl/cert.pem"
+    "CA_CERTS": "/etc/ssl/certs/ca-certificates.crt"
   }
 }

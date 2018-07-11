@@ -1,5 +1,5 @@
 #basic dirs
-sudo apt-get install git
+sudo apt-get --assume-yes install git virtualenv
 
 mkdir /home/pi/bpm_run
 mkdir /home/pi/bpm_run/device
@@ -9,6 +9,8 @@ cd /home/pi/bpm_run
 git clone https://github.com/GabeWeiss/GoogleIoTCoreApp.git
 
 cd /home/pi/bpm_run/GoogleIoTCoreApp/pi_py
+
+virtualenv .
 
 sudo chmod +x startup_utils/start_python.sh
 
@@ -25,11 +27,12 @@ cat rsa_public.pem
 
 
 #util script
+cd /home/pi/bpm_run/GoogleIoTCoreApp/pi_py
 sudo cp startup_utils/bpm.service /lib/systemd/system/bpm.service
 sudo chmod 644 /lib/systemd/system/bpm.service
 
 sudo systemctl daemon-reload
-sudo systemctl enable myscript.service
+sudo systemctl enable bpm.service
 
 #remember to reboot
 #sudo reboot
