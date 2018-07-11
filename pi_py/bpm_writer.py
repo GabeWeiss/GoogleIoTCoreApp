@@ -177,7 +177,7 @@ ser.baudrate = 115200
 ser.port = serial_port
 ser.open()
 
-
+#test
 
 def main():
     global minimum_backoff_time
