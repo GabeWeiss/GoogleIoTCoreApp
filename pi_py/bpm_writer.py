@@ -21,6 +21,7 @@ import random
 import ssl
 import time
 import json
+import datetime
 
 import jwt
 import paho.mqtt.client as mqtt
@@ -218,11 +219,13 @@ def main():
             bpm = random.randint(50,100)
             temp = random.randint(50,100)
 
+        read_time = int(datetime.datetime.now().strftime("%s")) * 1000
+
         if bpm >= hr_limit:
             print 'you\'re too busy! take a breath'
 
         if connected:
-            payload = json.dumps({'bpm':bpm, 'temp':temp})
+            payload = json.dumps({'bpm':bpm, 'temp':temp, 'time':read_time})
             print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
             client.publish(mqtt_topic, payload, qos=0)
 
