@@ -149,6 +149,7 @@ device_id = dconfig['DEVICE']['DEVICE_ID']
 private_key_file = dconfig['DEVICE']['PRIVATE_KEY']
 serial_port = dconfig['DEVICE']['SERIAL_PORT']
 sys_type = dconfig['DEVICE']['TYPE']
+ca_certs = dconfig['DEVICE']['CA_CERTS']
 
 
 #global config
@@ -162,8 +163,7 @@ mqtt_bridge_hostname = gconfig['GCP']['MQTT_BRIDGE_HOSTNAME']
 mqtt_bridge_port = gconfig['GCP']['MQTT_BRIDGE_PORT']
 algorithm = gconfig['GCP']['ALGORITHM']
 
-#sys specific
-ca_certs = gconfig[sys_type]['CA_CERTS']
+
 
 
 

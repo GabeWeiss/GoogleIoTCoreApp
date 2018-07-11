@@ -6,11 +6,5 @@
     "MQTT_BRIDGE_HOSTNAME": "mqtt.googleapis.com",
     "MQTT_BRIDGE_PORT": 8883,
     "ALGORITHM": "RS256"
-  },
-  "SYS-MAC": {
-    "CA_CERTS": "/usr/local/etc/openssl/cert.pem"
-  },
-  "SYS-PI": {
-    "CA_CERTS": "/etc/ssl/certs/ca-certificates.crt"
   }
 }
