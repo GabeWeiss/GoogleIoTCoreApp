@@ -225,7 +225,7 @@ def main():
             print 'you\'re too busy! take a breath'
 
         if connected:
-            payload = json.dumps({'bpm':bpm, 'temp':temp, 'time':read_time})
+            payload = json.dumps({'bpm':bpm, 'temp':temp, 'timestamp':read_time})
             print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
             client.publish(mqtt_topic, payload, qos=0)
 
