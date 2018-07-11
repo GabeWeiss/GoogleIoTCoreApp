@@ -213,8 +213,8 @@ def main():
                 ser_vals = sline.split(',')
                 bpm = int(ser_vals[1])
                 temp = float(ser_vals[0])
-                print('bpm: ' + str(bpm))
-                print('temp: ' + str(temp))
+                #print('bpm: ' + str(bpm))
+                #print('temp: ' + str(temp))
         else:
             bpm = random.randint(50,100)
             temp = random.randint(50,100)
