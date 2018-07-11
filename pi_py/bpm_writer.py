@@ -27,7 +27,7 @@ import paho.mqtt.client as mqtt
 
 import serial
 
-
+fake = True
 
 # [START iot_mqtt_jwt]
 def create_jwt(project_id, private_key_file, algorithm):
@@ -172,10 +172,11 @@ mqtt_config_topic = '/devices/{}/config'.format(device_id)
 
 
 #uart config and vars
-ser = serial.Serial()
-ser.baudrate = 115200
-ser.port = serial_port
-ser.open()
+if not fake:
+    ser = serial.Serial()
+    ser.baudrate = 115200
+    ser.port = serial_port
+    ser.open()
 
 #test
 
@@ -184,6 +185,7 @@ def main():
     global connected
     connected = False
     global hr_limit
+    hr_limit = 1000
 
     #args = parse_command_line_args()
 
@@ -201,22 +203,23 @@ def main():
 
     while True:
 
-        #payload = random.randint(50,100)
-
-        ser.reset_input_buffer()
-        time.sleep(0.1)
-        sline = ser.readline() 
-        if sline and sline != '':
-            bpm = int(sline)
-            print 'bpm: ' + str(bpm)
-            payload = bpm
+        
+        if not fake:
+            ser.reset_input_buffer()
+            time.sleep(0.1)
+            sline = ser.readline() 
+            if sline and sline != '':
+                bpm = int(sline)
+                print 'bpm: ' + str(bpm)
+        else:
+            bpm = random.randint(50,100)
 
         if bpm >= hr_limit:
             print 'you\'re too busy! take a breath'
 
         if connected:
-            print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
-            client.publish(mqtt_topic, payload, qos=0)
+            print 'publishing ' + str(bpm) + ' on ' + mqtt_topic 
+            client.publish(mqtt_topic, bpm, qos=0)
 
 
         # Send events every second. limit to 1 per second due to fs limits

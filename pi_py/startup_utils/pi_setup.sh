@@ -1,16 +1,16 @@
 #basic dirs
-sudo apt-get --assume-yes install git virtualenv
+sudo apt-get --assume-yes install git
 
 mkdir /home/pi/bpm_run
 mkdir /home/pi/bpm_run/device
 
 cd /home/pi/bpm_run
 
+#copy the deploy key private key over
+
 git clone https://github.com/GabeWeiss/GoogleIoTCoreApp.git
 
 cd /home/pi/bpm_run/GoogleIoTCoreApp/pi_py
-
-virtualenv .
 
 sudo chmod +x startup_utils/start_python.sh
 
