@@ -28,6 +28,8 @@
 #define USE_ARDUINO_INTERRUPTS true
 #include <PulseSensorPlayground.h>
 
+#include <OneWire.h> 
+
 /*
    The format of our output.
 
@@ -56,6 +58,11 @@ const int PULSE_BLINK = 13;    // Pin 13 is the on-board LED
 const int PULSE_FADE = 5;
 const int THRESHOLD = 550;   // Adjust this number to avoid noise when idle
 
+//one wire setup
+int DS18S20_Pin = 10; //DS18S20 Signal pin on digital 2
+char tmpstring[10];
+OneWire ds(DS18S20_Pin);
+
 /*
    All the PulseSensor Playground functions.
 */
@@ -72,6 +79,10 @@ void setup() {
      not work properly.
   */
   Serial.begin(115200);
+
+  //turn on pin to power sensor
+  pinMode(12, OUTPUT);
+  digitalWrite(12, HIGH);
 
   // Configure the PulseSensor manager.
 
@@ -102,9 +113,7 @@ void setup() {
     }
   }
 
-//turn on pin to power sensor
-  pinMode(12, OUTPUT);
-  digitalWrite(12, HIGH);
+
 }
 
 void loop() {
@@ -130,7 +139,58 @@ void loop() {
 // Serial.print("is inside? "); 
 // Serial.println(pulseSensor.isInsideBeat());
 
- 
+  //temp
+  float temperature = getTemp();
+  //int tmp = (int) temperature;
+  Serial.print(temperature);
+  Serial.print(",");
+  
+ //temp
  int bpm = pulseSensor.getBeatsPerMinute();
  Serial.println(bpm);
+}
+
+float getTemp(){
+  //returns the temperature from one DS18S20 in DEG Celsius
+
+  byte data[12];
+  byte addr[8];
+
+  if ( !ds.search(addr)) {
+      //no more sensors on chain, reset search
+      ds.reset_search();
+      return -1000;
+  }
+
+  if ( OneWire::crc8( addr, 7) != addr[7]) {
+      Serial.println("CRC is not valid!");
+      return -999;
+  }
+
+  if ( addr[0] != 0x10 && addr[0] != 0x28) {
+      Serial.print("Device is not recognized");
+      return -998;
+  }
+
+  ds.reset();
+  ds.select(addr);
+  ds.write(0x44,1); // start conversion, with parasite power on at the end
+
+  byte present = ds.reset();
+  ds.select(addr);    
+  ds.write(0xBE); // Read Scratchpad
+
+  for (int i = 0; i < 9; i++) { // we need 9 bytes
+    data[i] = ds.read();
+  }
+
+  ds.reset_search();
+
+  byte MSB = data[1];
+  byte LSB = data[0];
+
+  float tempRead = ((MSB << 8) | LSB); //using two's compliment
+  float TemperatureSum = tempRead / 16;
+
+  return (TemperatureSum * 18 + 5)/10 + 32;
 }
