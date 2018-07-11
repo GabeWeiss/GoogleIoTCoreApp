@@ -209,17 +209,22 @@ def main():
             time.sleep(0.1)
             sline = ser.readline() 
             if sline and sline != '':
-                bpm = int(sline)
-                print 'bpm: ' + str(bpm)
+                ser_vals = sline.split(',')
+                bpm = int(ser_vals[1])
+                temp = float(ser_vals[0])
+                print('bpm: ' + str(bpm))
+                print('temp: ' + str(temp))
         else:
             bpm = random.randint(50,100)
+            temp = random.randint(50,100)
 
         if bpm >= hr_limit:
             print 'you\'re too busy! take a breath'
 
         if connected:
-            print 'publishing ' + str(bpm) + ' on ' + mqtt_topic 
-            client.publish(mqtt_topic, bpm, qos=0)
+            payload = json.dumps({'bpm':bpm, 'temp':temp})
+            print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
+            client.publish(mqtt_topic, payload, qos=0)
 
 
         # Send events every second. limit to 1 per second due to fs limits
