@@ -64,23 +64,14 @@ def on_connect(unused_client, unused_userdata, unused_flags, rc):
     print('on_connect', mqtt.connack_string(rc))
 
     # After a successful connect, reset backoff time and stop backing off.
-    global should_backoff
-    global minimum_backoff_time
     global connected
     connected = True
-    should_backoff = False
-    minimum_backoff_time = 1
 
 
 
 def on_disconnect(unused_client, unused_userdata, rc):
     """Paho callback for when a device disconnects."""
     print('on_disconnect', error_str(rc))
-
-    # Since a disconnect occurred, the next loop iteration will wait with
-    # exponential backoff.
-    global should_backoff
-    should_backoff = True
 
 
 def on_publish(unused_client, unused_userdata, unused_mid):
@@ -132,6 +123,7 @@ def get_client(
     # Connect to the Google MQTT bridge.
     client.connect(mqtt_bridge_hostname, mqtt_bridge_port)
 
+    time.sleep(1)
     # Subscribe to the config topic.
     client.subscribe(mqtt_config_topic, qos=0)
 
