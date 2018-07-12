@@ -123,10 +123,6 @@ def get_client(
     # Connect to the Google MQTT bridge.
     client.connect(mqtt_bridge_hostname, mqtt_bridge_port)
 
-    time.sleep(1)
-    # Subscribe to the config topic.
-    client.subscribe(mqtt_config_topic, qos=0)
-
     
 
     return client
@@ -193,6 +189,10 @@ def main():
 
     # Process network events on new thread
     client.loop_start()
+
+    # Subscribe to the config topic.
+    time.sleep(1)
+    client.subscribe(mqtt_config_topic, qos=0)
 
     while True:
 
