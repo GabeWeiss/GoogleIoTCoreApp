@@ -28,7 +28,7 @@ import paho.mqtt.client as mqtt
 
 import serial
 
-fake = False
+fake = True
 
 # [START iot_mqtt_jwt]
 def create_jwt(project_id, private_key_file, algorithm):
@@ -218,7 +218,7 @@ def main():
 
         if connected:
             payload = json.dumps({'bpm':bpm, 'temperature':temp, 'timestamp':read_time})
-            print 'publishing ' + str(payload) + ' on ' + mqtt_topic 
+            print('publishing ' + str(payload) + ' on ' + mqtt_topic)
             client.publish(mqtt_topic, payload, qos=0)
 
 

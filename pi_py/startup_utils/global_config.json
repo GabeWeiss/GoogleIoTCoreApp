@@ -1,6 +1,6 @@
 {
   "GCP": {
-    "PROJECT_ID": "calum_iot_demo",
+    "PROJECT_ID": "calum-iot-demo",
     "CLOUD_REGION": "us-central1",
     "REGISTRY_ID": "my-registry",
     "MQTT_BRIDGE_HOSTNAME": "mqtt.googleapis.com",
