@@ -214,7 +214,7 @@ def main():
         read_time = int(datetime.datetime.now().strftime("%s")) * 1000
 
         if bpm >= hr_limit:
-            print 'you\'re too busy! take a breath'
+            print('you\'re too busy! take a breath')
 
         if connected:
             payload = json.dumps({'bpm':bpm, 'temperature':temp, 'timestamp':read_time})
