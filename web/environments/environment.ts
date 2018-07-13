@@ -1,19 +1,11 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyClOMzTiUFmfCNt4Uevwj4jZb0YLnfZsSU',
-  authDomain: 'iotcoreappnext2018pre-2f91e.firebaseapp.com',
-  databaseURL: 'https://iotcoreappnext2018pre-2f91e.firebaseio.com',
-  projectId: 'iotcoreappnext2018pre-2f91e',
-  storageBucket: 'iotcoreappnext2018pre-2f91e.appspot.com',
-  messagingSenderId: '443490724972'
-};
+import {config} from './firebase';
 
 export const environment = {
   production: false,
-  firebase: firebaseConfig
+  firebase: config
 };
 
 /*

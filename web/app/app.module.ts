@@ -10,6 +10,8 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 
+console.log(environment.firebase)
+
 @NgModule({
   declarations: [
     AppComponent
@@ -28,8 +30,7 @@ import { AppComponent } from './app.component';
     RouterModule.forRoot([
       { path: '', redirectTo: 'devices', pathMatch: 'full'},
       { path: 'devices', loadChildren: './devices/device-manager.module#DeviceManagerModule'},
-      { path: 'iot-dashboard', loadChildren: './iot-dashboard/iot-dashboard.module#IotDashboardModule'},
-      { path: 'iot-users', loadChildren: './iot-users/iot-users.module#IotUsersModule'}
+      { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' }
     ])
   ],
   providers: [],
