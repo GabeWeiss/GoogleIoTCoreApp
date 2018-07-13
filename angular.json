@@ -5,7 +5,7 @@
   "projects": {
     "iot-core-app": {
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "web",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -14,19 +14,19 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "public",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "index": "web/index.html",
+            "main": "web/main.ts",
+            "polyfills": "web/polyfills.ts",
+            "tsConfig": "web/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "web/favicon.ico",
+              "web/assets"
             ],
             "styles": [
               {
                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
               },
-              "src/styles.css"
+              "web/styles.css"
             ],
             "scripts": []
           },
@@ -34,8 +34,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "web/environments/environment.ts",
+                  "with": "web/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -71,20 +71,20 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "web/test.ts",
+            "polyfills": "web/polyfills.ts",
+            "tsConfig": "web/tsconfig.spec.json",
+            "karmaConfig": "web/karma.conf.js",
             "styles": [
               {
                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
               },
-              "src/styles.css"
+              "web/styles.css"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "web/favicon.ico",
+              "web/assets"
             ]
           }
         },
@@ -92,8 +92,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "web/tsconfig.app.json",
+              "web/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
