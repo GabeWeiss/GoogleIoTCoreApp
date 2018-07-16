@@ -2,7 +2,7 @@
   "DEVICE": {
     "DEVICE_ID": "nerve_0",
     "PRIVATE_KEY": "../../device/rsa_private.pem",
-    "TYPE": "SYS-MAC",
+    "TYPE": "SYS-PI",
 	"SERIAL_PORT": "/dev/ttyS0",
 	"CA_CERTS": "/etc/ssl/certs/ca-certificates.crt"
   }

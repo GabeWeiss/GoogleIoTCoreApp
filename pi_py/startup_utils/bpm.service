@@ -1,6 +1,6 @@
 [Unit]
 Description=Start and Update BPM Python Script
-After=network.target
+After=network-online.target
 
 [Service]
 Type=simple
@@ -10,6 +10,7 @@ Group=pi
 ExecStartPre=/usr/bin/git pull
 ExecStartPre=/home/pi/bpm_run/GoogleIoTCoreApp/pi_py/startup_utils/run_pip.sh
 ExecStart=/usr/bin/python -u bpm_writer.py
+TimeoutStopSec=120
 
 
 [Install]
