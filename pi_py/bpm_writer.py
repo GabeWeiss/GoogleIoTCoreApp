@@ -127,6 +127,18 @@ def get_client(
 
     return client
 
+def toggle_led(status):
+    if not fake:
+        global led_status
+
+        if led_status is False and status is True:
+            GPIO.output(18,GPIO.HIGH)
+            led_status = True
+        if led_status is True and status is False:
+            GPIO.output(18,GPIO.LOW)
+            led_status = False
+    else: 
+        'hr limit exceeded, slow down!'
 
 ###CONFIG###
 
@@ -166,6 +178,18 @@ if not fake:
     ser.baudrate = 115200
     ser.port = serial_port
     ser.open()
+
+    #led setup
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(18,GPIO.OUT)
+    GPIO.output(18,GPIO.LOW)
+
+    global led_status
+    led_status = False
+
+
 
 #test
 
@@ -214,7 +238,9 @@ def main():
         read_time = int(datetime.datetime.now().strftime("%s")) * 1000
 
         if bpm >= hr_limit:
-            print('you\'re too busy! take a breath')
+            toggle_led(True)
+        else:
+            toggle_led(False)
 
         if connected:
             payload = json.dumps({'bpm':bpm, 'temperature':temp, 'timestamp':read_time})
