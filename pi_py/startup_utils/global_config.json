@@ -1,8 +1,8 @@
 {
   "GCP": {
-    "PROJECT_ID": "del-me-please",
+    "PROJECT_ID": "iot-dry-run-1",
     "CLOUD_REGION": "us-central1",
-    "REGISTRY_ID": "iot_core_demo",
+    "REGISTRY_ID": "nerves",
     "MQTT_BRIDGE_HOSTNAME": "mqtt.googleapis.com",
     "MQTT_BRIDGE_PORT": 8883,
     "ALGORITHM": "RS256"
