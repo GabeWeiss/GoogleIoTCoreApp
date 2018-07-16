@@ -1,6 +1,7 @@
 /node_modules/
 /functions/node_modules/
 /functions/lib/
+/utils/*.js
 
 # Virtualenv
 .Python
@@ -16,3 +17,7 @@ pip-selfcheck.json
 
 #MAC
 .DS_Store
+/public/
+
+#KEYS
+/_keys/
