@@ -4,10 +4,11 @@ Requires=network.target
 After=network.target
 
 [Service]
-Type=simple
+Type=idle
 WorkingDirectory=/home/pi/bpm_run/GoogleIoTCoreApp/pi_py/
 User=pi
 Group=pi
+ExecStartPre=/bin/sleep 5
 ExecStartPre=/usr/bin/git pull
 ExecStartPre=/home/pi/bpm_run/GoogleIoTCoreApp/pi_py/startup_utils/run_pip.sh
 ExecStart=/usr/bin/python -u bpm_writer.py
