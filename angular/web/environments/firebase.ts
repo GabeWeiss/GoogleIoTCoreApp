@@ -1,8 +1,8 @@
 export const config = {
-  apiKey: "AIzaSyCc_tN__EDofDYdkz1sAo4ev5IpMsqVc-M",
-  authDomain: "del-me-please.firebaseapp.com",
-  databaseURL: "https://del-me-please.firebaseio.com",
-  projectId: "del-me-please",
-  storageBucket: "del-me-please.appspot.com",
-  messagingSenderId: "690963482963"
+  apiKey: "AIzaSyCL6mwPFsrbLdVzMBfYOZ1k3Ag7ex10hFQ",
+  authDomain: "iot-dry-run-2.firebaseapp.com",
+  databaseURL: "https://iot-dry-run-2.firebaseio.com",
+  projectId: "iot-dry-run-2",
+  storageBucket: "iot-dry-run-2.appspot.com",
+  messagingSenderId: "314154022173"
 };

@@ -5,7 +5,7 @@
     fixedInViewport="true"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="!(isHandset$ | async)">
+    [opened]="true">
     <mat-toolbar color="primary">️<mat-icon>favorite</mat-icon><span>GBPM</span></mat-toolbar>
     <mat-nav-list>
       <mat-list-item *ngFor="let link of links">
