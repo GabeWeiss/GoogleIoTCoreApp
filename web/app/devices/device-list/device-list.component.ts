@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
-
-
-interface Device {
-  id: string;
-  firstName: string;
-  lastName: string;
-}
+import { Device } from '../device';
 
 @Component({
   selector: 'app-device-list',

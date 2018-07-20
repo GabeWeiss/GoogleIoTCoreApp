@@ -10,8 +10,6 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 
-console.log(environment.firebase)
-
 @NgModule({
   declarations: [
     AppComponent
@@ -29,6 +27,7 @@ console.log(environment.firebase)
     AngularFirestoreModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'devices', pathMatch: 'full'},
+      { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
       { path: 'devices', loadChildren: './devices/device-manager.module#DeviceManagerModule'},
       { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' }
     ])
