@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { DisplayPipe } from './display-pipe';
 
 const deviceManagerRoutes: Routes = [
   { path: '', component: DeviceListComponent, pathMatch: 'full' },
@@ -23,6 +24,6 @@ const deviceManagerRoutes: Routes = [
     MatButtonModule,
     RouterModule.forChild(deviceManagerRoutes)
   ],
-  declarations: [DeviceListComponent, DeviceDetailComponent]
+  declarations: [DeviceListComponent, DeviceDetailComponent, DisplayPipe]
 })
 export class DeviceManagerModule { }

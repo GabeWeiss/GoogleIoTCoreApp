@@ -1,95 +1,229 @@
 import * as d3 from 'd3';
-import {scaleTime, scaleLinear} from 'd3-scale';
-import {transition} from 'd3-transition';
-import {interpolate, interpolateBasis} from 'd3-interpolate';
+import { interval, Observable, combineLatest, BehaviorSubject, animationFrameScheduler, defer } from 'rxjs';
+import { mergeMap, map, concatMap, withLatestFrom, tap, scan, buffer } from 'rxjs/operators';
+import { Component, ElementRef, ViewEncapsulation, Input, NgModule } from '@angular/core';
+import { DeviceService, Device } from '../devices/device';
 
-import { easeLinear } from 'd3-ease';
-import { interval, combineLatest } from 'rxjs';
-import { mergeMap, map, concatMap } from 'rxjs/operators';
-import { Component, ElementRef, ViewEncapsulation, Input } from '@angular/core';
-import { DeviceService } from '../devices/device';
+import * as firebase from 'firebase';
 
-export function createGraph() { }
+declare var ResizeObserver;
+
+function elementResize$(el: HTMLElement) {
+  return new Observable(sink => {
+    const observer = new ResizeObserver(([entry]) => {
+      sink.next(entry);
+    });
+    observer.observe(el);
+    return () => observer.unobserve(el);
+  });
+}
+
+function combineLatestObj(obj: { [key: string]: Observable<any> }) {
+  const keys = Object.keys(obj);
+  return combineLatest(...keys.map(key => obj[key]))
+    .pipe(map(values => {
+      return keys.reduce((allValues, key, i) => {
+        allValues[key] = values[i];
+        return allValues;
+      }, {});
+    }));
+}
+
+export function createGraph(devices: Observable<Device[]>) { }
 
 @Component({
   selector: 'app-pulse-graph',
   template: ``,
   styles: [`
-    :host {
-      display: block;
-    }
-    .graph .axis .domain {
+  :host {
+    display: flex;
+  }
+    .line {
       fill: none;
       stroke: black;
-  }
+      stroke-width: 2px;
+    }
 
-  .graph .group {
-    fill: none;
-    stroke: black;
-    stroke-width: 1.5;
-}
-  `],
+    .axis {
+      font-family: sans-serif;
+      fill: #d35400;
+      font-size: 12pt;
+    }
+    .line {
+      fill: none;
+      stroke-width: 3px;
+    }
+    .axis path,
+		.axis line {
+		  fill: none;
+      stroke: black;
+      stroke-width: 1px;
+    }
+    .axis text {
+      stroke-width: 1px;
+      stroke: black;
+    }
+    `
+  ],
   encapsulation: ViewEncapsulation.None
 })
 export class PulseGraphComponent {
-  @Input() devices = [];
-  constructor(private elRef: ElementRef, private deviceService: DeviceService) {}
+  private devices$ = new BehaviorSubject<Device[]>([]);
+  @Input() set devices(devices: Device[]) {
+    this.devices$.next(devices || []);
+  }
 
 
-   createGraph() {
-    const now = Date.now();
+  constructor(private elRef: ElementRef, private deviceService: DeviceService) { }
+
+
+  createGraph() {
+    // const graphSize = elementResize$(this.elRef.nativeElement);
+    const now = firebase.firestore.Timestamp.now();
+    const end = new firebase.firestore.Timestamp(now.seconds - 1, now.nanoseconds);
     const limit = 60;
-    const duration = 750;
-    const {height, width} = (this.elRef.nativeElement as HTMLElement).getBoundingClientRect();
+    const step = 1;
+    const redrawInterval = 1000;
+    const { height, width } = (this.elRef.nativeElement as HTMLElement).getBoundingClientRect();
+
     const graphSvg = d3.select(this.elRef.nativeElement)
       .append('svg')
-      .attr('class', 'graph')
+      .attr('class', 'pulse-graph')
       .attr('width', width)
       .attr('height', height);
 
+    const xScale = d3.scaleTime()
+      .domain([end.toMillis() - (60 * 1000), now.toMillis()])
+      .range([0, width - 25]);
 
-    const xScale = scaleTime()
-    .domain([0, 200])
-    .range([0, width]);
-
-    const yScale = scaleLinear()
+    const yScale = d3.scaleLinear()
       .domain([0, 250])
-      .range([0, height]);
+      .range([0, height - 25]);
+
+
+
+    elementResize$(this.elRef.nativeElement).subscribe((entry: any) => {
+      console.log('resize', entry);
+      yScale.range([0, entry.contentRect.height - 25]);
+      xScale.range([0, entry.contentRect.width - 25]);
+    });
+    const xAxis = d3.axisBottom(xScale);
+    const axisX = graphSvg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', `translate(0, ${height - 25})`)
+      .call(xAxis);
+
+    const lines = graphSvg.append('path');
+
+    const yAxis = d3.axisRight(yScale);
+    const axisY = graphSvg.append('g')
+      .attr('class', 'y axis')
+      // .attr('transform', `translate(0, -20)`)
+      .call(yAxis);
 
     const line = d3.line()
-      .curve(d3.curveLinear)
+      .curve(d3.curveBasisOpen)
       .x((d: any, i) => {
-        return xScale(i);
+        return xScale(d.timestamp.toMillis());
       })
-      .y((d:any) => {
+      .y((d: any) => {
+
         return yScale(d.bpm);
       });
 
-    const paths = graphSvg.append('g');
 
-    const data = d3.range(limit).map(d => 60);
+    const paths = graphSvg.append('path');
 
-    const line1 = paths.append('path')
-      .attr('class', '')
-      .style('stroke-width', 2)
-      .style('fill', 'none')
-      .style('stroke', 'red');
+    const deviceDataStreams = this.devices$.pipe(
+      mergeMap((devices) => devices
+        .filter(device => device.deviceId)
+        .map(device => this.deviceService.getMeasurements(device.deviceId).pipe(map(measurements => [device.deviceId, measurements]))
+        )
+      ),
+      mergeMap(device => device),
+      scan((allDevices, update: [string, any[]]) => {
+        const [id, data] = update;
+        allDevices[id] = update;
+        return allDevices;
+      }, {})
+    );
 
 
-    const ticks$ = interval(500);
+    const ticks$ = defer(() => {
+      let frameCounter = 0;
+      let start = animationFrameScheduler.now();
+      return interval(redrawInterval, animationFrameScheduler)
+        .pipe(
+          map(() => {
+            const n = animationFrameScheduler.now();
+            const d = n - start;
+            start = n;
+            return [frameCounter++, n, d];
+          }));
+    });
+
+    const activeLines = {};
+
+    const buildFrame = ([frameId, timestamp, delay], values) => {
+      const frame = [
+        frameId,
+        timestamp,
+        delay,
+        timestamp - (limit * 1000),
+        values
+      ];
+      return frame;
+    };
+
+    const colors = ['red', 'green', 'blue', 'yellow', 'orange'];
+
+    const renderFrame = ([frameId, timestamp, delay, min, values]) => {
+      const ids = Object.keys(values);
+      //xScale.domain([min, timestamp]);
+
+
+      return new Observable(sink => {
+        xScale.domain([min, timestamp]);
+        const renderTime = Date.now();
+
+        ids.forEach((id, index) => {
+          let p = activeLines[id];
+          if (!p) {
+            p = graphSvg.append('path');
+            activeLines[id] = p;
+          }
+          const [idK, data] = values[id];
+          p.datum(data)
+            .attr('class', 'line')
+            .style('stroke', colors[index] || 'pink')
+            .attr('d', line);
+
+          p.attr('transform', null)
+            .transition()
+            .duration(delay - (renderTime - timestamp))
+            .ease(d3.easeLinear)
+            .attr('transform', 'translate(' + xScale(timestamp - (60 * 1000)) + ')');
+
+        });
+
+        axisX
+          .transition()
+          .duration(delay - (renderTime - timestamp))
+          .ease(d3.easeLinear)
+          .call(xAxis as any).on('end', () => {
+            sink.complete();
+          });
+      });
+    }
 
 
 
-    this.deviceService.devices$.pipe(
-      mergeMap(devices => combineLatest(...devices.map(device => this.deviceService.getMeasurements(device.deviceId)))
-        .pipe(map(deviceDatas => {
-          return devices.reduce((devices, device, i) => {
-            devices[device.deviceId] = deviceDatas[i];
-            return devices;
-          }, {});
-        })))
-    ).subscribe(((readings:any[]) => {
-      console.log(readings);
+    ticks$.pipe(
+      withLatestFrom(deviceDataStreams, buildFrame),
+      concatMap(renderFrame)
+    ).subscribe(() => {
+
+      //TODO
     });
 
 
@@ -98,10 +232,20 @@ export class PulseGraphComponent {
 
 
   }
+
+
   ngAfterViewInit() {
     this.createGraph();
   }
 }
+
+@NgModule({
+  imports: [],
+  exports: [PulseGraphComponent],
+  declarations: [PulseGraphComponent]
+})
+export class PulseGraphModule { }
+
 
 
 // const limit = 60 * 1;

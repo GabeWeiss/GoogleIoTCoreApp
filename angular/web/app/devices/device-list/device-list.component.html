@@ -1,6 +1,6 @@
 <mat-card *ngFor="let device of devices$ | async">
   <mat-card-header>
-    <mat-card-title>{{device.displayName || device.firstName +"'s Device"}}</mat-card-title>
+    <mat-card-title>{{device | displayName }}</mat-card-title>
     <mat-card-subtitle>ID: {{device.deviceId}}</mat-card-subtitle>
   </mat-card-header>
 

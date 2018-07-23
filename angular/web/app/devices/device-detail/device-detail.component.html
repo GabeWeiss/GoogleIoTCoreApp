@@ -1,7 +1,7 @@
 <mat-card *ngIf="device$ | async as device">
   <mat-card-header>
     <mat-card-title>
-      <h3>Device Detail</h3>
+      <h3>{{device | displayName }}</h3>
     </mat-card-title>
     <mat-card-subtitle>ID: {{device.deviceId}}</mat-card-subtitle>
   </mat-card-header>

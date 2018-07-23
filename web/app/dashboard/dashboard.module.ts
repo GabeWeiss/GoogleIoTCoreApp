@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
-import { PulseGraphComponent } from './pulse-graph';
+import { PulseGraphModule } from './pulse-graph';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
@@ -21,9 +21,11 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    MatCardModule
+    MatCardModule,
+    MatGridListModule,
+    PulseGraphModule
   ],
   exports: [RouterModule],
-  declarations: [DashboardViewComponent, PulseGraphComponent]
+  declarations: [DashboardViewComponent]
 })
 export class DashboardModule { }

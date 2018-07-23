@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { mergeMap } from 'rxjs/operators';
-import { DeviceService } from '../device';
+import { DeviceService, Device } from '../device';
 
 @Component({
   selector: 'app-device-detail',
