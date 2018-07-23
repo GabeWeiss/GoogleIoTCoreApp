@@ -28,8 +28,7 @@ import { AppComponent } from './app.component';
     RouterModule.forRoot([
       { path: '', redirectTo: 'devices', pathMatch: 'full'},
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule'},
-      { path: 'devices', loadChildren: './devices/device-manager.module#DeviceManagerModule'},
-      { path: 'settings', loadChildren: './settings/settings.module#SettingsModule' }
+      { path: 'devices', loadChildren: './devices/device-manager.module#DeviceManagerModule'}
     ])
   ],
   providers: [],

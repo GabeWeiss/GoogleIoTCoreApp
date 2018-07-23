@@ -11,9 +11,8 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 export class AppComponent {
 
   links = [
-    { path: 'dashboard', text: 'Dashboard', icon: 'settings_input_antenna'},
-    { path: 'devices', text: 'Devices', icon: 'settings_input_antenna'},
-    { path: 'settings', text: 'Settings', icon: 'settings'}
+     { path: 'dashboard', text: 'Dashboard', icon: 'settings_input_antenna'},
+    { path: 'devices', text: 'Devices', icon: 'settings_input_antenna'}
   ];
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
