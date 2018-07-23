@@ -79,8 +79,8 @@ export class PulseGraphComponent {
 
   createGraph() {
     // const graphSize = elementResize$(this.elRef.nativeElement);
-    const now = firebase.firestore.Timestamp.now();
-    const end = new firebase.firestore.Timestamp(now.seconds - 1, now.nanoseconds);
+    const now = Date.now();
+    const end = now - 1000;
     const limit = 60;
     const step = 1;
     const redrawInterval = 1000;
@@ -93,11 +93,11 @@ export class PulseGraphComponent {
       .attr('height', height);
 
     const xScale = d3.scaleTime()
-      .domain([end.toMillis() - (60 * 1000), now.toMillis()])
+      .domain([now, end])
       .range([0, width - 25]);
 
     const yScale = d3.scaleLinear()
-      .domain([0, 250])
+      .domain([250, 0])
       .range([0, height - 25]);
 
 
@@ -118,13 +118,12 @@ export class PulseGraphComponent {
     const yAxis = d3.axisRight(yScale);
     const axisY = graphSvg.append('g')
       .attr('class', 'y axis')
-      // .attr('transform', `translate(0, -20)`)
       .call(yAxis);
 
     const line = d3.line()
       .curve(d3.curveBasisOpen)
       .x((d: any, i) => {
-        return xScale(d.timestamp.toMillis());
+        return xScale(d.timestamp);
       })
       .y((d: any) => {
 

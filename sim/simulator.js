@@ -14,7 +14,7 @@ var devices = rxjs_1.defer(function () { return firebase_admin_1.firestore()
     .limit(10).get(); })
     .pipe(operators_1.mergeMap(function (deviceSnapshot) { return deviceSnapshot.docs; }), 
 //filter(device => simDevices.some(d => device.id === d)),
-operators_1.delay(250), operators_1.mergeMap(function (device) { return mockHeartbeat(device.id).pipe(operators_1.mergeMap(function (beat) { return firebase_admin_1.firestore()
+operators_1.delay(250), operators_1.mergeMap(function (device) { return mockHeartbeat(device.id, true).pipe(operators_1.mergeMap(function (beat) { return firebase_admin_1.firestore()
     .collection("devices/" + device.id + "/measurements").add(beat); })); }, 3)).subscribe(function (beat) {
     console.log('saved', beat.id);
 });
@@ -23,21 +23,25 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
-var mockHeartbeat = function (deviceId) { return new rxjs_1.Observable(function (sink) {
-    var genBpm = function (prev) { return getRandomInt(65, 200); };
-    var bpm = genBpm(65);
-    var f = new KalmanFilter(bpm);
-    var id;
-    function updateValue() {
-        bpm = Math.round(f.update(genBpm(bpm)));
-        console.log(bpm);
-        var _a = firebase.firestore.Timestamp.now(), nanoseconds = _a.nanoseconds, seconds = _a.seconds;
-        sink.next({ deviceId: deviceId, bpm: bpm, timestamp: { seconds: seconds, nanoseconds: nanoseconds }, temperature: 98.1 });
-        id = setTimeout(function () { return updateValue(); }, 1000);
-    }
-    updateValue();
-    return function () { return clearTimeout(id); };
-}); };
+var mockHeartbeat = function (deviceId, applyFilter) {
+    if (applyFilter === void 0) { applyFilter = false; }
+    return new rxjs_1.Observable(function (sink) {
+        var genBpm = function (prev) { return getRandomInt(65, 200); };
+        var bpm = genBpm(65);
+        var f = new KalmanFilter(bpm);
+        var filteredBpm = f.update(bpm);
+        var id;
+        function updateValue() {
+            bpm = genBpm(bpm);
+            filteredBpm = f.update(bpm);
+            var _a = firebase.firestore.Timestamp.now(), nanoseconds = _a.nanoseconds, seconds = _a.seconds;
+            sink.next({ deviceId: deviceId, bpm: applyFilter ? filteredBpm : bpm, timestamp: { seconds: seconds, nanoseconds: nanoseconds }, temperature: 98.1 });
+            id = setTimeout(function () { return updateValue(); }, 1000);
+        }
+        updateValue();
+        return function () { return clearTimeout(id); };
+    });
+};
 var KalmanFilter = /** @class */ (function () {
     function KalmanFilter(x, q, r, p) {
         if (q === void 0) { q = 0.2; }
