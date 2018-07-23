@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
+import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, interval, defer } from 'rxjs';
 import { switchMap, withLatestFrom, map, tap } from 'rxjs/operators';
+import { KalmanFilter } from './utils';
 
 export interface Device {
   deviceId: string;
@@ -43,10 +45,17 @@ export class DeviceService {
       map(([latestReading]) => latestReading)
     )
 
-  getMeasurements = (deviceId, queryFn?) => this.af.collection(
+  getMeasurements = (deviceId, queryFn?) => this.af.collection<MeasurementDoc>(
     `devices/${deviceId}/measurements`,
-    queryFn ? queryFn : ref => ref.orderBy('timestamp', 'desc').limit(200)
+    queryFn ? queryFn : ref => ref.orderBy('timestamp.seconds', 'desc').limit(61)
   ).valueChanges()
+    .pipe(map(data => data.map(measurement => ({
+      ...measurement,
+      timestamp: new firebase.firestore.Timestamp(
+        measurement.timestamp.seconds,
+        measurement.timestamp.nanoseconds)
+      }))
+    ))
 
   getDeviceDoc = deviceId => this.af
     .doc<Device>(`devices/${deviceId}`)
@@ -62,4 +71,27 @@ export class DeviceService {
 
   toMeasurements  = (queryStream: Observable<{deviceId: string}>) => queryStream
     .pipe(switchMap(({deviceId}) => this.getMeasurements(deviceId)))
+
+  mockHeartbeat = (deviceId) => new Observable((sink) => {
+    const genBpm = prev => getRandomInt(prev - 20, prev + 20);
+    let bpm = genBpm(65);
+    const filter = new KalmanFilter(bpm);
+
+    let id;
+
+    function updateValue() {
+      bpm = Math.round(filter.update(genBpm(bpm)));
+      sink.next({deviceId, bpm, timestamp: Date.now()});
+      id = setTimeout(() => updateValue(), getRandomInt(995, 1005));
+    }
+    updateValue();
+    return () => clearTimeout(id);
+  })
+}
+
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
 }

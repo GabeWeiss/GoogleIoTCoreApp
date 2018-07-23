@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Device, DeviceService } from '../../devices/device';
 @Component({
   selector: 'app-dashboard-view',
   templateUrl: './dashboard-view.component.html',
@@ -7,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(private deviceService: DeviceService) {}
 
+  devices$ = this.deviceService.devices$;
   ngOnInit() {
   }
 
