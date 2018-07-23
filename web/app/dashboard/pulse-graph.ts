@@ -6,6 +6,9 @@ import { DeviceService, Device } from '../devices/device';
 
 import * as firebase from 'firebase';
 
+const colors = ['brown', 'orange', 'green', 'yellow', 'blue'];
+const people = ['calum', 'martin', 'rob', 'alicia', 'gabe'];
+
 declare var ResizeObserver;
 
 function elementResize$(el: HTMLElement) {
@@ -103,7 +106,6 @@ export class PulseGraphComponent {
 
 
     elementResize$(this.elRef.nativeElement).subscribe((entry: any) => {
-      console.log('resize', entry);
       yScale.range([0, entry.contentRect.height - 25]);
       xScale.range([0, entry.contentRect.width - 25]);
     });
@@ -174,11 +176,9 @@ export class PulseGraphComponent {
       return frame;
     };
 
-    const colors = ['red', 'green', 'blue', 'yellow', 'orange'];
-
     const renderFrame = ([frameId, timestamp, delay, min, values]) => {
       const ids = Object.keys(values);
-      //xScale.domain([min, timestamp]);
+      xScale.domain([min, timestamp]);
 
 
       return new Observable(sink => {
@@ -186,6 +186,7 @@ export class PulseGraphComponent {
         const renderTime = Date.now();
 
         ids.forEach((id, index) => {
+          const [ok, colorIndex] = id.split('_');
           let p = activeLines[id];
           if (!p) {
             p = graphSvg.append('path');
@@ -194,7 +195,7 @@ export class PulseGraphComponent {
           const [idK, data] = values[id];
           p.datum(data)
             .attr('class', 'line')
-            .style('stroke', colors[index] || 'pink')
+            .style('stroke', colors[parseInt(colorIndex, 10)] || 'pink')
             .attr('d', line);
 
           p.attr('transform', null)
@@ -213,7 +214,7 @@ export class PulseGraphComponent {
             sink.complete();
           });
       });
-    }
+    };
 
 
 
@@ -222,7 +223,6 @@ export class PulseGraphComponent {
       concatMap(renderFrame)
     ).subscribe(() => {
 
-      //TODO
     });
 
 
