@@ -18,10 +18,10 @@ const devices = defer(() => firestore()
     mergeMap(deviceSnapshot => deviceSnapshot.docs),
     //filter(device => simDevices.some(d => device.id === d)),
     delay(250),
-    mergeMap(device => mockHeartbeat(device.id).pipe(mergeMap(beat => firestore()
+    mergeMap(device => mockHeartbeat(device.id, true).pipe(mergeMap(beat => firestore()
     .collection(`devices/${device.id}/measurements`).add(beat))), 3),
   ).subscribe(beat => {
-    console.log('saved', beat.id)
+    //console.log('saved', beat.id)
   });
 
 function getRandomInt(min, max) {
@@ -30,18 +30,21 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-const mockHeartbeat = (deviceId) => new Observable((sink) => {
+const mockHeartbeat = (deviceId, applyFilter = false) => new Observable((sink) => {
   const genBpm = prev => getRandomInt(65, 200);
+
   let bpm = genBpm(65);
   const f = new KalmanFilter(bpm);
+  let filteredBpm = f.update(bpm);
+
 
   let id;
 
   function updateValue() {
-    bpm = Math.round(f.update(genBpm(bpm)));
-    console.log(bpm)
+    bpm = genBpm(bpm);
+    filteredBpm = f.update(bpm);
     const {nanoseconds, seconds} = firebase.firestore.Timestamp.now();
-    sink.next({deviceId, bpm, timestamp: {seconds, nanoseconds}, temperature: 98.1 });
+    sink.next({deviceId, bpm: applyFilter ? filteredBpm : bpm, timestamp: {seconds, nanoseconds}, temperature: 98.1 });
     id = setTimeout(() => updateValue(), 1000);
   }
   updateValue();

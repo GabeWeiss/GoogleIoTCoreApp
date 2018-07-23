@@ -47,15 +47,8 @@ export class DeviceService {
 
   getMeasurements = (deviceId, queryFn?) => this.af.collection<MeasurementDoc>(
     `devices/${deviceId}/measurements`,
-    queryFn ? queryFn : ref => ref.orderBy('timestamp.seconds', 'desc').limit(61)
+    queryFn ? queryFn : ref => ref.orderBy('timestamp', 'desc').limit(61)
   ).valueChanges()
-    .pipe(map(data => data.map(measurement => ({
-      ...measurement,
-      timestamp: new firebase.firestore.Timestamp(
-        measurement.timestamp.seconds,
-        measurement.timestamp.nanoseconds)
-      }))
-    ))
 
   getDeviceDoc = deviceId => this.af
     .doc<Device>(`devices/${deviceId}`)
