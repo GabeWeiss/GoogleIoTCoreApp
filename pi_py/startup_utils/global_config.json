@@ -1,6 +1,6 @@
 {
   "GCP": {
-    "PROJECT_ID": "iot-dry-run-3",
+    "PROJECT_ID": "iot200-next-2018",
     "CLOUD_REGION": "us-central1",
     "REGISTRY_ID": "nerves",
     "MQTT_BRIDGE_HOSTNAME": "mqtt.googleapis.com",
