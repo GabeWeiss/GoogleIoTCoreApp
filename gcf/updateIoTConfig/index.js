@@ -14,7 +14,8 @@ function setAuth(serviceAccount) {
 }
 
 /**
- * Responds to any HTTP POST request and publishes to a Pub/Sub topic.
+ * Responds to a HTTP request and updates the desired
+ * IoT device config.
  *
  * @param {Object} req Cloud Function request context.
  * @param {Object} res Cloud Function response context.
