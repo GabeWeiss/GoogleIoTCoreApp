@@ -1,0 +1,7 @@
+{
+  "name": "update-iot-config",
+  "version": "1.0.0",
+  "dependencies": {
+    "googleapis": "^31.0.2"
+  }
+}

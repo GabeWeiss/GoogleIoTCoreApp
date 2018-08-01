@@ -1,0 +1,7 @@
+{
+  "name": "telemetry-to-firestore",
+  "version": "1.0.0",
+  "dependencies": {
+    "firebase-admin": "^5.12.1"
+  }
+}
