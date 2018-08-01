@@ -5,7 +5,7 @@ The app uses a serveless infrastructure for the backend powered by [Google Cloud
   - [telemetryToFirestore](https://github.com/GabeWeiss/GoogleIoTCoreApp/tree/master/gcf/telemetryToFirestore)
   - [updateIoTConfig](https://github.com/GabeWeiss/GoogleIoTCoreApp/tree/master/gcf/updateIoTConfig)
 
-# Telemetry to Firestore
+#### Telemetry to Firestore
 This function subscribes to the [Pub/Sub](https://cloud.google.com/pubsub/) topic that we configured the IoT devices to send telemetry to, so that every time data is sent to IoT Core a new instance of this function gets executed. The function parses the message from the Pub/Sub event and writes it to [Cloud Firestore](https://firebase.google.com/docs/firestore/).
 
 ### Update IoT Config
