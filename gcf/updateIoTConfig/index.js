@@ -1,9 +1,11 @@
 const {google} = require('googleapis');
 
-// Sets the required  API client by discovering the Cloud IoT Core API with
-// the provided API key.
+/**
+ *  Sets the required  API client by discovering the Cloud IoT Core API with
+ *  the provided API key.
+ * @param {Object} serviceAccount A service account JSON object.
+ */
 function setAuth(serviceAccount) {
-  //const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountJson));
   const jwtAccess = new google.auth.JWT();
   jwtAccess.fromJSON(serviceAccount);
   // Note that if you require additional scopes, they should be specified as a
