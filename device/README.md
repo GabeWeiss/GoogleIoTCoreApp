@@ -16,3 +16,7 @@ You can find the Arduino code for the device in the `arduino/BPM_to_Serial` fold
 5. You can test things out by looking for the comma sperated values in the serial monitor
 
 ## Software
+This repo provides software software to run on and setup the Pi.
+
+1. Clone this repo to a folder called `bpm_run` in the home folder of your pi, so that you have `/home/pi/bpm_run/GoogleIoTCoreApp'
+2. 
