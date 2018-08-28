@@ -12,7 +12,11 @@ var simDevices = ['nerve_3'];
 var devices = rxjs_1.defer(function () { return firebase_admin_1.firestore()
     .collection('devices')
     .limit(10).get(); })
+<<<<<<< HEAD
     .pipe(operators_1.mergeMap(function (deviceSnapshot) { return deviceSnapshot.docs; }),
+=======
+    .pipe(operators_1.mergeMap(function (deviceSnapshot) { return deviceSnapshot.docs; }), 
+>>>>>>> 4e06eb5ef2e0784b214a4e502a214932fd886c1c
 //filter(device => simDevices.some(d => device.id === d)),
 operators_1.delay(250), operators_1.mergeMap(function (device) { return mockHeartbeat(device.id, true).pipe(operators_1.mergeMap(function (beat) { return firebase_admin_1.firestore()
     .collection("devices/" + device.id + "/measurements").add(beat); })); }, 3)).subscribe(function (beat) {

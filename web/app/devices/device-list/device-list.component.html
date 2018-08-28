@@ -1,0 +1,14 @@
+<mat-card *ngFor="let device of devices$ | async">
+  <mat-card-header>
+    <mat-card-title>{{device | displayName }}</mat-card-title>
+    <mat-card-subtitle>ID: {{device.deviceId}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <pre>{{device | json}}</pre>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-button [routerLink]="[device.deviceId]">DETAILS</a>
+    <a mat-button disabled>DEBUG</a>
+  </mat-card-actions>
+</mat-card>
