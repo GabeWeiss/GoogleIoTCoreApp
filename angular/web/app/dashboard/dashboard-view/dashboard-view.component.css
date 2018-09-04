@@ -3,7 +3,14 @@
   flex-direction: column;
   margin: 8px;
 }
+
 mat-card {
   flex: 1;
   margin: 4px;
+}
+
+.fill-graph {
+  display: flex;
+  flex-grow: 1;
+  min-height: 600px;
 }

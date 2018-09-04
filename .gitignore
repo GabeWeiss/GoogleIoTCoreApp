@@ -1,4 +1,5 @@
 /node_modules/
+/angular/node_modules/
 /functions/node_modules/
 /functions/lib/
 /utils/*.js
