@@ -16,7 +16,6 @@ def telemetry_to_firestore(event, context):
          event (dict): Event payload.
          context (google.cloud.functions.Context): Metadata for the event.
     """
-    logging.info(event)
     if 'data' not in event:
         raise ValueError('No telemetry data was provided!')
 
