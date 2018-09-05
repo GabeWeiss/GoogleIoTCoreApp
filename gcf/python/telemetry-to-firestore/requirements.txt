@@ -1,0 +1,4 @@
+google-cloud-logging==1.6.0
+grpcio==1.10.0
+google-cloud-firestore >= 0.29.0
+google-cloud==0.34.0

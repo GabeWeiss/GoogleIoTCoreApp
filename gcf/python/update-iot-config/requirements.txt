@@ -1,0 +1,5 @@
+google-cloud-logging==1.6.0
+grpcio==1.10.0
+google-api-python-client==1.6.6
+google-auth-httplib2==0.0.3
+google-auth==1.4.1
