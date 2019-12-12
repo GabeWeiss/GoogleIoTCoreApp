@@ -2074,7 +2074,7 @@ copy-webpack-plugin@^4.5.1:
     loader-utils "^1.1.0"
     minimatch "^3.0.4"
     p-limit "^1.0.0"
-    serialize-javascript "^1.4.0"
+    serialize-javascript "^2.1.1"
 
 core-js@2.5.5:
   version "2.5.5"
@@ -6711,10 +6711,9 @@ send@0.16.2:
     on-finished "~2.3.0"
     range-parser "~1.2.0"
     statuses "~1.4.0"
-
-serialize-javascript@^1.4.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.5.0.tgz#1aa336162c88a890ddad5384baebc93a655161fe"
+serialize-javascript@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.1.tgz#1aa336162c88a890ddad5384baebc93a655161fe"
 
 serve-index@^1.7.2:
   version "1.9.1"
@@ -7536,7 +7535,7 @@ uglifyjs-webpack-plugin@^1.2.4, uglifyjs-webpack-plugin@^1.2.5:
     cacache "^10.0.4"
     find-cache-dir "^1.0.0"
     schema-utils "^0.4.5"
-    serialize-javascript "^1.4.0"
+    serialize-javascript "^2.1.1"
     source-map "^0.6.1"
     uglify-es "^3.3.4"
     webpack-sources "^1.1.0"
