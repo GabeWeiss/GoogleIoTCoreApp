@@ -31,7 +31,7 @@
     "d3": "5.0",
     "firebase": "^5.1.0",
     "firebase-admin": "^5.12.1",
-    "googleapis": "^32.0.0",
+    "googleapis": "^39.1.0",
     "rxjs": "^6.0.0",
     "yargs": "^12.0.1",
     "zone.js": "^0.8.26"
